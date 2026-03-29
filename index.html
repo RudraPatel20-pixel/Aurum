@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM | Fine Dining</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--black);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Animated background */
+  .bg {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.05) 0%, transparent 60%),
+                linear-gradient(180deg, #0A0A0A 0%, #111111 50%, #0A0A0A 100%);
+    z-index: 0;
+  }
+
+  .particles {
+    position: fixed; inset: 0; z-index: 1; overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 1px; height: 1px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Decorative lines */
+  .deco-line {
+    position: fixed;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    width: 1px; height: 100%;
+    opacity: 0.15;
+    animation: lineShimmer 4s ease-in-out infinite;
+  }
+  .deco-line:nth-child(1) { left: 15%; animation-delay: 0s; }
+  .deco-line:nth-child(2) { right: 15%; animation-delay: 2s; }
+
+  @keyframes lineShimmer {
+    0%, 100% { opacity: 0.05; }
+    50% { opacity: 0.25; }
+  }
+
+  /* Main container */
+  .container {
+    position: relative; z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 900px;
+    max-width: 95vw;
+    height: 580px;
+    animation: containerReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  @keyframes containerReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Left panel */
+  .left-panel {
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(139,105,20,0.08) 100%);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .left-panel::before {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+  }
+
+  .brand-crown {
+    font-size: 60px;
+    line-height: 1;
+    margin-bottom: 20px;
+    animation: crownSpin 0.8s ease-out 0.5s both;
+    position: relative; z-index: 1;
+  }
+
+  @keyframes crownSpin {
+    from { transform: rotateY(90deg) scale(0.5); opacity: 0; }
+    to { transform: rotateY(0) scale(1); opacity: 1; }
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    letter-spacing: 12px;
+    color: var(--gold);
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+    animation: textReveal 1s ease-out 0.7s both;
+  }
+
+  @keyframes textReveal {
+    from { letter-spacing: 30px; opacity: 0; }
+    to { letter-spacing: 12px; opacity: 1; }
+  }
+
+  .brand-tagline {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(201,168,76,0.7);
+    text-transform: uppercase;
+    margin-top: 12px;
+    position: relative; z-index: 1;
+    animation: fadeIn 1s ease-out 1s both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .brand-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 24px auto;
+    position: relative; z-index: 1;
+    animation: dividerExpand 1s ease-out 0.9s both;
+  }
+
+  @keyframes dividerExpand {
+    from { width: 0; }
+    to { width: 60px; }
+  }
+
+  .brand-desc {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: rgba(245,240,232,0.5);
+    text-align: center;
+    line-height: 2;
+    position: relative; z-index: 1;
+    animation: fadeIn 1s ease-out 1.1s both;
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 30px; height: 30px;
+    border-color: var(--gold-light);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .corner.tl { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .corner.br { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  /* Right panel - login form */
+  .right-panel {
+    flex: 1;
+    height: 100%;
+    background: rgba(17, 17, 17, 0.98);
+    border: 1px solid rgba(201,168,76,0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .right-panel::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: -50px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .login-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 6px;
+    animation: slideIn 0.8s ease-out 0.6s both;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .login-subtitle {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    animation: slideIn 0.8s ease-out 0.7s both;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+    position: relative;
+    animation: slideIn 0.8s ease-out both;
+  }
+  .form-group:nth-child(1) { animation-delay: 0.8s; }
+  .form-group:nth-child(2) { animation-delay: 0.9s; }
+  .form-group:nth-child(3) { animation-delay: 1s; }
+
+  .form-label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.7);
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    padding: 12px 0;
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    outline: none;
+    transition: all 0.4s ease;
+  }
+
+  .form-input:focus {
+    border-bottom-color: var(--gold);
+    background: rgba(201,168,76,0.03);
+  }
+
+  .form-input::placeholder { color: rgba(245,240,232,0.2); }
+
+  .input-line {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+
+  .form-input:focus ~ .input-line { width: 100%; }
+
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 36px;
+    animation: slideIn 0.8s ease-out 1.1s both;
+  }
+
+  .remember-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(245,240,232,0.4);
+    cursor: pointer;
+  }
+
+  .remember-label input { display: none; }
+
+  .custom-check {
+    width: 14px; height: 14px;
+    border: 1px solid rgba(201,168,76,0.4);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .remember-label input:checked ~ .custom-check {
+    background: var(--gold);
+  }
+
+  .forgot-link {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  .forgot-link:hover { opacity: 1; }
+
+  .btn-login {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s ease;
+    animation: slideIn 0.8s ease-out 1.2s both;
+  }
+
+  .btn-login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-login:hover { color: var(--black); }
+  .btn-login:hover::before { transform: translateX(0); }
+
+  .btn-login span { position: relative; z-index: 1; }
+
+  .signup-link {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(245,240,232,0.3);
+    animation: fadeIn 0.8s ease-out 1.3s both;
+  }
+
+  .signup-link a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  .signup-link a:hover { border-color: var(--gold); }
+
+  /* Error message */
+  .error-msg {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #E57373;
+    margin-top: 8px;
+    display: none;
+  }
+
+  /* Loading state */
+  .btn-login.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 1px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    right: 20px; top: 50%;
+    transform: translateY(-50%);
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: rgba(17,17,17,0.95);
+    border: 1px solid var(--gold);
+    padding: 14px 30px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="deco-line"></div>
+<div class="deco-line"></div>
+<div class="particles" id="particles"></div>
+
+<div class="toast" id="toast">Welcome back to AURUM</div>
+
+<div class="container">
+  <!-- Left Brand Panel -->
+  <div class="left-panel">
+    <div class="corner tl"></div>
+    <div class="corner br"></div>
+    <div class="brand-crown">♛</div>
+    <div class="brand-name">AURUM</div>
+    <div class="brand-tagline">Fine Dining & Luxury</div>
+    <div class="brand-divider"></div>
+    <div class="brand-desc">
+      AN EXPERIENCE CRAFTED<br>
+      FOR THE DISCERNING PALATE<br>
+      SINCE MMXII
+    </div>
+  </div>
+
+  <!-- Right Login Panel -->
+  <div class="right-panel">
+    <div class="login-title">Welcome Back</div>
+    <div class="login-subtitle">Sign in to continue</div>
+
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input type="email" class="form-input" id="email" placeholder="your@email.com">
+      <div class="input-line"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="password" placeholder="••••••••">
+      <div class="input-line"></div>
+      <div class="error-msg" id="errorMsg">Invalid credentials. Please try again.</div>
+    </div>
+
+    <div class="form-options">
+      <label class="remember-label">
+        <input type="checkbox" id="remember">
+        <div class="custom-check"></div>
+        Remember me
+      </label>
+      <a href="#" class="forgot-link">Forgot password?</a>
+    </div>
+
+    <button class="btn-login" id="loginBtn" onclick="handleLogin()">
+      <span>Enter the Experience</span>
+    </button>
+
+    <div class="signup-link">
+      New to AURUM? <a href="#">Create an account</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Generate particles
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      width: ${size}px;
+      height: ${size}px;
+      animation-duration: ${Math.random() * 8 + 6}s;
+      animation-delay: ${Math.random() * 8}s;
+    `;
+    particlesEl.appendChild(p);
+  }
+
+  function handleLogin() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const btn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const toast = document.getElementById('toast');
+
+    if (!email || !password) {
+      errorMsg.style.display = 'block';
+      errorMsg.textContent = 'Please fill in all fields.';
+      return;
+    }
+
+    errorMsg.style.display = 'none';
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => { window.location.href = 'home.html'; }, 300);
+      }, 1800);
+    }, 1500);
+  }
+
+  // Allow Enter key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM | Specials</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C97A; --gold-dark: #8B6914;
+    --black: #0A0A0A; --dark: #111111; --cream: #F5F0E8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Montserrat', sans-serif; background: var(--black); color: var(--cream); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 60px; background: rgba(10,10,10,0.95);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; letter-spacing: 8px; color: var(--gold); text-decoration: none; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,240,232,0.6); text-decoration: none; position: relative; transition: color 0.3s; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s ease; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+  .nav-links a.active { color: var(--gold); }
+  .nav-cart { position: relative; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); text-decoration: none; padding: 8px 20px; border: 1px solid rgba(201,168,76,0.4); transition: all 0.3s ease; }
+  .nav-cart:hover { background: var(--gold); color: var(--black); }
+  .cart-count { position: absolute; top: -8px; right: -8px; width: 18px; height: 18px; border-radius: 50%; background: var(--gold); color: var(--black); font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: 500; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    position: relative; overflow: hidden; padding: 140px 60px 100px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=1600') center/cover;
+    filter: brightness(0.15) saturate(0.4);
+    animation: heroZoom 16s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.4) 100%); }
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+  .hero-eyebrow { font-size: 9px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: flex; align-items: center; gap: 20px; }
+  .eyebrow-line { flex: 1; max-width: 60px; height: 1px; background: var(--gold); opacity: 0.5; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(64px, 8vw, 110px); font-weight: 300; line-height: 0.95; color: var(--cream); margin-bottom: 30px; }
+  .hero-title em { color: var(--gold); font-style: italic; display: block; }
+  .hero-desc { font-size: 12px; line-height: 2.2; letter-spacing: 0.5px; color: rgba(245,240,232,0.5); max-width: 480px; margin-bottom: 50px; }
+
+  /* COUNTDOWN */
+  .countdown-section {
+    background: rgba(201,168,76,0.05);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 60px;
+    text-align: center;
+  }
+  .countdown-label { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 30px; }
+  .countdown { display: flex; justify-content: center; gap: 60px; }
+  .count-item { text-align: center; }
+  .count-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px; font-weight: 300; color: var(--cream); line-height: 1;
+    display: block; animation: countPulse 1s ease-in-out infinite alternate;
+  }
+  @keyframes countPulse { from { color: var(--cream); } to { color: var(--gold); } }
+  .count-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,240,232,0.3); margin-top: 8px; }
+  .count-colon { font-family: 'Cormorant Garamond', serif; font-size: 72px; color: var(--gold); opacity: 0.3; line-height: 1; animation: blink 1s ease-in-out infinite; }
+  @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0; } }
+
+  /* SPECIALS GRID */
+  .specials-section { padding: 100px 60px; }
+  .section-header { text-align: center; margin-bottom: 80px; }
+  .section-label { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; color: var(--cream); }
+
+  .specials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 3px;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .special-card {
+    position: relative; overflow: hidden; cursor: pointer;
+  }
+  .special-card:first-child { grid-row: 1 / 3; }
+
+  .special-card-img {
+    width: 100%; height: 100%;
+    object-fit: cover; min-height: 340px;
+    filter: brightness(0.4) saturate(0.7);
+    transition: all 0.7s ease;
+  }
+  .special-card:first-child .special-card-img { min-height: 700px; }
+  .special-card:hover .special-card-img { transform: scale(1.06); filter: brightness(0.3) saturate(0.7); }
+
+  .special-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 60%);
+    padding: 40px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: all 0.4s ease;
+  }
+
+  .special-tag {
+    display: inline-block;
+    background: var(--gold); color: var(--black);
+    font-size: 7px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 5px 14px; margin-bottom: 16px;
+    align-self: flex-start;
+  }
+
+  .special-badge {
+    position: absolute; top: 24px; right: 24px;
+    width: 70px; height: 70px; border-radius: 50%;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 8px; letter-spacing: 1px; color: var(--gold); text-align: center; text-transform: uppercase;
+  }
+  .special-badge strong { font-size: 18px; font-family: 'Cormorant Garamond', serif; font-weight: 300; display: block; }
+
+  .special-name { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream); margin-bottom: 10px; }
+  .special-desc { font-size: 11px; line-height: 1.8; color: rgba(245,240,232,0.4); margin-bottom: 20px; transform: translateY(16px); opacity: 0; transition: all 0.4s ease; }
+  .special-card:hover .special-desc { transform: translateY(0); opacity: 1; }
+
+  .special-footer { display: flex; justify-content: space-between; align-items: center; }
+  .special-price { font-size: 20px; letter-spacing: 1px; color: var(--gold); }
+  .special-original { font-size: 12px; color: rgba(245,240,232,0.3); text-decoration: line-through; margin-left: 8px; }
+  .special-btn {
+    padding: 10px 24px; border: 1px solid var(--gold);
+    background: transparent; color: var(--gold);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s ease;
+    transform: translateY(10px); opacity: 0; transition: all 0.4s ease;
+  }
+  .special-card:hover .special-btn { transform: translateY(0); opacity: 1; }
+  .special-btn:hover { background: var(--gold); color: var(--black); }
+
+  /* TASTING MENU */
+  .tasting-section {
+    padding: 100px 60px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(139,105,20,0.03) 100%);
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .tasting-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: center; }
+  .tasting-label { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .tasting-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
+  .tasting-desc { font-size: 12px; line-height: 2.2; color: rgba(245,240,232,0.5); margin-bottom: 40px; }
+  .tasting-price { font-family: 'Cormorant Garamond', serif; font-size: 36px; color: var(--gold); }
+  .tasting-price small { font-size: 12px; font-family: 'Montserrat', sans-serif; color: rgba(245,240,232,0.4); letter-spacing: 2px; }
+  .tasting-courses { list-style: none; }
+  .tasting-courses li {
+    display: flex; align-items: center; gap: 20px;
+    padding: 16px 0; border-bottom: 1px solid rgba(201,168,76,0.08);
+    font-size: 11px; letter-spacing: 1px; color: rgba(245,240,232,0.6);
+    opacity: 0; transform: translateX(20px); transition: all 0.5s ease;
+  }
+  .tasting-courses li.visible { opacity: 1; transform: translateX(0); }
+  .course-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  .btn-primary {
+    display: inline-block; margin-top: 36px; padding: 16px 44px;
+    background: var(--gold); color: var(--black);
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    text-decoration: none; position: relative; overflow: hidden; transition: all 0.4s ease;
+    border: none; cursor: pointer; font-family: 'Montserrat', sans-serif;
+  }
+  .btn-primary::before { content: ''; position: absolute; inset: 0; background: var(--gold-light); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+  .btn-primary:hover::before { transform: scaleX(1); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .toast { position: fixed; bottom: 40px; right: 40px; background: rgba(17,17,17,0.98); border: 1px solid var(--gold); padding: 16px 28px; z-index: 200; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; gap: 12px; align-items: center; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { color: var(--gold); font-size: 16px; }
+  .toast-text { font-size: 11px; letter-spacing: 1px; color: var(--cream); }
+
+  footer { padding: 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(201,168,76,0.1); }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 6px; color: var(--gold); }
+  .footer-copy { font-size: 9px; letter-spacing: 1px; color: rgba(245,240,232,0.2); }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="home.html" class="nav-logo">AURUM</a>
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="menus.html">Menu</a></li>
+    <li><a href="specials.html" class="active">Specials</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="cart.html" class="nav-cart">Cart <span class="cart-count" id="cartCount">0</span></a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      Tonight's Exclusives
+      <div class="eyebrow-line"></div>
+    </div>
+    <h1 class="hero-title">
+      Today's
+      <em>Specials</em>
+    </h1>
+    <p class="hero-desc">
+      Our chef composes a new narrative each evening — rare ingredients, inspired pairings, and fleeting moments that can never be repeated.
+    </p>
+    <a href="#specials" class="btn-primary"><span>Explore Tonight's Menu</span></a>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown-section reveal">
+  <div class="countdown-label">Special Offer Ends In</div>
+  <div class="countdown">
+    <div class="count-item">
+      <span class="count-number" id="hours">00</span>
+      <div class="count-label">Hours</div>
+    </div>
+    <div class="count-colon">:</div>
+    <div class="count-item">
+      <span class="count-number" id="minutes">00</span>
+      <div class="count-label">Minutes</div>
+    </div>
+    <div class="count-colon">:</div>
+    <div class="count-item">
+      <span class="count-number" id="seconds">00</span>
+      <div class="count-label">Seconds</div>
+    </div>
+  </div>
+</div>
+
+<!-- SPECIALS GRID -->
+<section class="specials-section" id="specials">
+  <div class="section-header reveal">
+    <div class="section-label">Limited — Tonight Only</div>
+    <h2 class="section-title">Chef's Evening Specials</h2>
+  </div>
+  <div class="specials-grid reveal">
+    <div class="special-card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" class="special-card-img" alt="">
+      <div class="special-overlay">
+        <div class="special-badge"><strong>25%</strong>Off</div>
+        <div class="special-tag">Featured Special</div>
+        <div class="special-name">Langoustine & Golden Caviar</div>
+        <div class="special-desc">Live langoustine, golden Oscietra caviar, champagne beurre blanc, sea asparagus, dill oil</div>
+        <div class="special-footer">
+          <div>
+            <span class="special-price">₹7,200</span>
+            <span class="special-original">₹9,600</span>
+          </div>
+          <button class="special-btn" onclick="addToCart('Langoustine & Golden Caviar', 7200, this)">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    <div class="special-card">
+      <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600" class="special-card-img" alt="">
+      <div class="special-overlay">
+        <div class="special-tag">New Arrival</div>
+        <div class="special-name">Wild Turbot en Croûte</div>
+        <div class="special-desc">Wild Atlantic turbot, spinach & herb crust, sauce Véronique</div>
+        <div class="special-footer">
+          <span class="special-price">₹5,800</span>
+          <button class="special-btn" onclick="addToCart('Wild Turbot en Croûte', 5800, this)">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    <div class="special-card">
+      <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600" class="special-card-img" alt="">
+      <div class="special-overlay">
+        <div class="special-tag">Seasonal</div>
+        <div class="special-name">Morel & Asparagus Tart</div>
+        <div class="special-desc">Spring morel mushrooms, white asparagus, aged comté, hazelnut vinaigrette</div>
+        <div class="special-footer">
+          <span class="special-price">₹3,200</span>
+          <button class="special-btn" onclick="addToCart('Morel & Asparagus Tart', 3200, this)">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASTING MENU -->
+<section class="tasting-section">
+  <div class="tasting-inner">
+    <div class="reveal">
+      <div class="tasting-label">Exclusive Offer</div>
+      <h2 class="tasting-title">The Grand<br>Tasting<br>Experience</h2>
+      <p class="tasting-desc">Eight courses of culinary storytelling. Our most immersive offering, available for the full table only.</p>
+      <div class="tasting-price">₹16,500 <small>per person</small></div>
+      <button class="btn-primary" onclick="addToCart('Grand Tasting Experience (per person)', 16500, this)">
+        <span>Reserve This Experience</span>
+      </button>
+    </div>
+    <div class="reveal">
+      <ul class="tasting-courses" id="tastingCourses">
+        <li><div class="course-dot"></div> Amuse-Bouche — Chef's Welcome Bites</li>
+        <li><div class="course-dot"></div> Cold Starter — Oscietra Caviar Presentation</li>
+        <li><div class="course-dot"></div> Soup — Wild Mushroom & Truffle Consommé</li>
+        <li><div class="course-dot"></div> Warm Starter — Foie Gras Terrine</li>
+        <li><div class="course-dot"></div> Fish Course — Poached Halibut</li>
+        <li><div class="course-dot"></div> Pre-Main — Lemon Sorbet Intermezzo</li>
+        <li><div class="course-dot"></div> Main — A5 Wagyu with Pomme Dauphinoise</li>
+        <li><div class="course-dot"></div> Dessert — Chocolate Sphere & Petit Fours</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span class="toast-text" id="toastText">Added to cart</span>
+</div>
+
+<footer>
+  <div class="footer-logo">AURUM</div>
+  <div class="footer-copy">© 2024 AURUM Fine Dining. All rights reserved.</div>
+</footer>
+
+<script>
+  // Cart
+  let cart = JSON.parse(localStorage.getItem('aurumCart') || '[]');
+  document.getElementById('cartCount').textContent = cart.reduce((a,b) => a + b.qty, 0);
+
+  function addToCart(name, price) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) existing.qty++; else cart.push({ name, price, qty: 1 });
+    localStorage.setItem('aurumCart', JSON.stringify(cart));
+    document.getElementById('cartCount').textContent = cart.reduce((a,b) => a + b.qty, 0);
+    const toast = document.getElementById('toast');
+    document.getElementById('toastText').textContent = `${name} added to cart`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  // Countdown to midnight
+  function updateCountdown() {
+    const now = new Date();
+    const end = new Date(); end.setHours(23,59,59,0);
+    const diff = end - now;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(m).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(s).padStart(2,'0');
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  // Reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Tasting courses stagger
+  const courseObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('#tastingCourses li').forEach((li, i) => {
+          setTimeout(() => li.classList.add('visible'), i * 100);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  courseObserver.observe(document.getElementById('tastingCourses'));
+</script>
+</body>
+</html>
